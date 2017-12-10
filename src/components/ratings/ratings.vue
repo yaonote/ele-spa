@@ -1,22 +1,11 @@
 <!-- by yao -->
 <template>
-  <div></div>
+  <div>我是评价页面</div>
 </template>
 
 <script type='text/ecmascript-6'>
 export default {
-  data () {
-    return {
-    };
-  },
-
-  components: {},
-
-  computed: {},
-
-  mounted: {},
-
-  methods: {}
+ 
 }
 
 </script>

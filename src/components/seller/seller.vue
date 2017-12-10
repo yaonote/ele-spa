@@ -1,13 +1,12 @@
 <!-- by yao -->
 <template>
-  <div>我是商品页面</div>
+  <div>我是商家页面</div>
 </template>
 
 <script type='text/ecmascript-6'>
-export default {
- 
-}
+export default {}
 
 </script>
 <style lang='stylus' rel='stylesheet/stylus'>
 </style>
+
