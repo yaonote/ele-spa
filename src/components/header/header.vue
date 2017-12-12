@@ -14,7 +14,7 @@
                        {{seller.description}}/{{seller.deliveryTime}}分钟
                      </div>
                      <div v-if="seller.supports" class="supports">
-                       <span class="icon"></span>
+                       <span class="icon" :class="classMap[seller.supports[0].type]"></span>
                        <span class="text">{{seller.supports[0].description}}</span>
                      </div>
                </div>
@@ -34,11 +34,15 @@ export default {
      seller: {
          type: Object
      }
+  },
+  created(){
+    this.classMap = ['decrease','discount','guarantee','invoice','special']
   }
 };
 
 </script>
 <style lang='stylus' rel='stylesheet/stylus'>
+    @import "../../common/stylus/mixin";
      .header-wrap
        color: #ffffff
        background-color #999999
@@ -47,6 +51,9 @@ export default {
          font-size: 0
          .avatar
            display inline-block
+           vertical-align top
+           img 
+            border-radius 2px
          .content
            display inline-block
            margin-left 16px
@@ -57,5 +64,47 @@ export default {
                 width 30px
                 height 18px
                 display inline-block
+                vertical-align top
+                bg-image('brand')
+                background-size: 30px 18px
+                background-repeat no-repeat
+             .name
+                margin-left 6px
+                font-size 16px
+                line-height 18px
+                font-weight bold
+           .description
+             margin: 8px auto 10px
+             font-size: 12px
+           .supports
+             font-size 10px
+             .icon
+                display inline-block
+                width 12px
+                height 12px
+                margin-right 4px
+                margin-top 1px
+                vertical-align top
+                background-size 12px 12px
+                background-repeat no-repeat
+                &.decrease
+                  bg-image('decrease_1')
+                &.discount
+                  bg-image('discount_1')
+                $.guarantee
+                  bg-image('guarantee_1')
+                $.invoice
+                  bg-image('invoice_1')
+                $.special
+                  bg-image('special_1')
+                
+              
+                
 
+      
+
+
+
+   
+   
 </style>
