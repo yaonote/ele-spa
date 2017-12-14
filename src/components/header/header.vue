@@ -21,7 +21,7 @@
                        <span class="text">{{seller.supports[0].description}}</span>
                      </div>
                      <!-- 右侧的数量显示 -->
-                     <div class="supports_count" v-if="seller.supports" @click="showDetail(true)">
+                     <div class="supports_count" v-if="seller.supports" @click="showGrey(true)">
                      <span>{{seller.supports.length}}个></span>
                      </div>
                    
@@ -39,30 +39,39 @@
          </div>
            <!-- 弹出层 -->
            <transition name="grey">
-                     <div class="grey" v-show="detailShow">
-                         <div class="big_name">{{seller.name}}</div>
-                         <div class="star"></div>
-                         <div class="module-title">
-                           <span class="line"></span>
-                           <span class="module-text">优惠信息</span>
-                           <span class="line"></span>
-                         </div>
-                         <!-- 优惠信息内容 -->
-                         <ul class="supports" v-if="seller.supports">
-                              <li class="support" v-for="item in seller.supports" v-bind:key="item">
-                                <span>{{item.description}}</span>
+                     <div class="grey" v-show="greyShow">
+                         <div class="grey-main">
+                            <div class="big_name">{{seller.name}}</div>
+                            <!-- 星星评分 -->
+                            <div class="star">
+                                <star :score="seller.score" :size="48"></star>
+                            </div>
+                            <div class="module-title">
+                              <span class="line"></span>
+                              <span class="module-text">优惠信息</span>
+                              <span class="line"></span>
+                            </div>
+                        <!-- 优惠信息内容 -->
+                            <ul class="supports" v-if="seller.supports">
+                              <li class="support" v-for="support of seller.supports" :key="support.id">
+                                <span class="icon" :class="classMap[support.type]"></span>
+                                <span>{{support.description}}</span>
                               </li>
-                         </ul>
-                         <!-- 商家公告 -->
-                         <div class="module-title">
-                           <span class="line"></span>
-                           <span class="module-text">商家公告</span>
-                           <span class="line"></span>
-                         </div>
-                         <div class="grey-bulletin">
-                           {{seller.bulletin}}
-                         </div>
-                     </div>
+                            </ul>
+                        <!-- 商家公告 -->
+                            <div class="module-title">
+                              <span class="line"></span>
+                              <span class="module-text">商家公告</span>
+                              <span class="line"></span>
+                            </div>
+                            <div class="grey-bulletin">
+                              {{seller.bulletin}}
+                            </div>
+                          </div>
+                          <div class="grey-close" @click="showGrey(false)">
+                              <span class="icon-close"></span>
+                          </div>   
+                     </div>                  
          </transition>
 
      </div>
@@ -71,6 +80,7 @@
 </template>
 
 <script type='text/ecmascript-6'>
+import star from '../star/star.vue'
 export default {
   props: {
      seller: {
@@ -79,13 +89,16 @@ export default {
   },
   data (){
     return {
-        detailShow: false
+        greyShow: false
     }
   },
   methods:{
-     showDetail (isShow){
-       this.detailShow = isShow
+     showGrey (isShow){
+       this.greyShow = isShow
      }
+  },
+  components:{
+     star
   },
   created(){
     this.classMap = ['decrease','discount','guarantee','invoice','special']
@@ -99,6 +112,7 @@ export default {
        position relative
        color: #ffffff
        background rgba(7,17,27,.5)
+       overflow hidden
        .content-wrap
          padding: 24px 12px 18px 24px
          font-size: 0
@@ -199,44 +213,71 @@ export default {
          img 
            width 100%
            height 100%
+          //  弹出层
        .grey
          position fixed
          top 0
          left 0
-         z-index 100
+         right 0
+         bottom 0
+         z-index 100        
          background  rgba(7,17,27,.8)
          text-align center
-         .big_name
+         overflow auto
+         .grey-main
+            min-height: 100%
             margin-top 64px
-            font 700 16px/32px ""
-         .star
-           height 24px
-           margin 16px auto 28px
-           border 1px solid red
-         .module-title
-           padding 36px 0
-           .line
-              display inline-block
-              width 112px
-              border-top 1px solid rgba(255,255,255,.2)
-         .grey-bulletin
-            margin-top 24px
-            padding 0 48px
-            font 12px/24px ""
-            text-align justify
-
-
-
-       
-      
-
-
-
-   
-   
-
-
-
+            padding-bottom 32px
+            .big_name
+                font 700 16px/32px ""
+            .star
+              height 24px
+              margin 16px auto 28px
+              // border 1px solid red
+            .module-title
+              padding 16px 0
+              .line
+                  display inline-block
+                  width 112px
+                  border 1px solid rgba(255,255,255,.2)
+                  margin-bottom 4px
+            .support
+                margin-bottom 12px
+                margin-left 48px
+                text-align left
+                font-size 12px
+                line-height 12px
+                .icon
+                   display inline-block
+                   width 16px 
+                   height 16px
+                   background-size 16px 16px
+                   background-repeat no-repeat
+                   vertical-align middle
+                   margin-right 6px
+                .decrease
+                   bg-image(decrease_2)
+                .discount
+                   bg-image(discount_2)
+                .guarantee
+                  bg-image(guarantee_2)
+                .invoice
+                  bg-image(invoice_2)
+                .special
+                  bg-image(special_2)
+                
+            .grey-bulletin
+                margin-top 24px
+                padding 0 48px
+                font 12px/24px ""
+                text-align justify
+         .grey-close
+              margin-top -160px
+              text-align center
+              line-height 32px 
+              font-size 32px 
+              height 32px             
+              color rgba(255,255,255,.5)
 
 
 </style>
