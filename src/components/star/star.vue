@@ -1,45 +1,36 @@
 <template>
-  <div class="star" :class="`star-${size}`">
-    <span class="star-item" :class="c" v-for="c in starClasses"></span>
-  </div>
+     <div class="star" :class="`star-${size}`">
+          <span class="star-item" v-for="c in starClasses" :key="c.id" :class="c"></span>
+     </div>
 </template>
 
 <script>
-  /*
-  最高分: 5
-  小数部分>=0.5
-   */
-  const CLASS_ON = 'on'
-  const CLASS_HALF = 'half'
-  const CLASS_OFF = 'off'
-
-  export default {
-    props: {
-      score: Number,
-      size: Number
-    },
-
-    computed: {
-      starClasses () {
-        const scs = []
-        // 向scs添加CLASS_ON
-        var score = this.score
-        var scoreInteger = Math.floor(score)
-        for (let i = 0; i < scoreInteger; i++) {
-          scs.push(CLASS_ON)
-        }
-        // 向scs添加CLASS_HALF
-        if(score-scoreInteger>=0.5) {
-          scs.push(CLASS_HALF)
-        }
-        // 向scs添加CLASS_OFF
-        while(scs.length<5) {
-          scs.push(CLASS_OFF)
-        }
-        return scs
-      }
-    }
-  }
+     const oneStar = 'one',
+           zeroStar = 'zero',
+           halfStar = 'half';
+     export default {
+       props: {
+         score: Number,
+         size: Number
+       },
+       computed: {
+         starClasses (){
+           const arrclass = []
+           var score = this.score
+           var scoreInteger = Math.trunc(score)
+           for(let i=0; i<scoreInteger;i++){
+                arrclass.push(oneStar)
+           }
+           if(score - scoreInteger < 5){
+             arrclass.push(halfStar)
+           }
+           while(arrclass<5){
+             arrclass.push(halfStar)
+           }
+           return arrclass
+         }
+       }
+     }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
@@ -51,11 +42,11 @@
       height 10px
       background-repeat no-repeat
       background-size 10px 10px
-    .on
+    .one
       bg-star(star24_on)
     .half
       bg-star(star24_half)
-    .off
+    .zero
       bg-star(star24_off)
   .star-36
     .star-item
@@ -64,11 +55,11 @@
       height 15px
       background-repeat no-repeat
       background-size 15px 15px
-    .on
+    .one
       bg-star(star36_on)
     .half
       bg-star(star36_half)
-    .off
+    .zero
       bg-star(star36_off)
   .star-48
     .star-item
@@ -77,10 +68,10 @@
       height 20px
       background-repeat no-repeat
       background-size 20px 20px
-    .on
+    .one
       bg-star(star48_on)
     .half
       bg-star(star48_half)
-    .off
+    .zero
       bg-star(star48_off)
 </style>
