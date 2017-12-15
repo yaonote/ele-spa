@@ -16,11 +16,10 @@
       </div>
    </div>
 <!-- 中间的内容部分 -->
-   <router-view>
-      <div class="content">
-        我是内容
-      </div>
-   </router-view>
+   <keep-alive>
+    <router-view :seller="seller"></router-view>
+   </keep-alive>
+  
   
   </div>
 </template>
