@@ -2,24 +2,23 @@
 <div class="goods">
       <!-- 左侧的菜单 -->
       <div class="menu-wrap" ref="menuwrap">
-      <ul>
+        <ul>
             <li class="menulist" v-for="(item,index) in goods"
                  :class="{current: index === 0}">
                   <span class='text border-1px'>
                         <span v-if="item.type >= 0" :class="classMap[item.type]" class="icon"></span>
                          {{item.name}}
-                  </span>
-                  
+                  </span>                  
             </li>
-      </ul>
+        </ul>
       </div>
       <!-- 右测的食物区 -->
       <div class="food-wrap" ref="foodwrap">
-      <ul>
+         <ul>
             <li class="food-module" v-for="el in goods">
                   <div class="module-title">{{el.name}}</div>
                   <ul>
-                  <li class="food-item" v-for="food in el.foods">
+                  <li class="food-item"  v-for="food in el.foods">
                         <span class="img-wrap">
                            <img  :src="food.icon" alt="食物图片" width="57">
                         </span>
@@ -39,8 +38,9 @@
                   </li>
                   </ul>            
             </li>
-      </ul>
+         </ul>
       </div>
+      <shopcart></shopcart>
 </div>
 </template>
 
@@ -50,6 +50,7 @@ import BScroll from 'better-scroll'
 import Vue from 'vue'
 
 import addfoodicon from '../addfoodicon/addfoodicon.vue'
+import shopcart from '../shopcart/shopcart.vue'
 const ERR_OK = 0;
 export default {
        
@@ -103,7 +104,8 @@ export default {
              }
        },
        components: {
-             addfoodicon
+             addfoodicon,
+             shopcart
        }
 }
 
