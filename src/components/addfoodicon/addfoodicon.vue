@@ -1,8 +1,10 @@
 <template>
  <div class="addfoodicon">
-          <span class="reduce icon-remove_circle_outline" v-show="food.count"></span>
-          <span class="sum">1</span>
-          <span class="add icon-add_circle"></span>
+          <span class="reduce icon-remove_circle_outline" v-show="food.count"
+          @click.stop='updateFoodCount(food,false,$event)'>
+          </span>
+          <span class="sum" v-show='food.count'>{{food.count}}</span>
+          <span class="add icon-add_circle" @click.stop='updateFoodCount(food,true,$event)'></span>
  </div>
 </template>
 
@@ -11,10 +13,6 @@
      props: {
          food: Object,
          updateFoodCount: Function
-     },
-     created(){
-        //  console.log(this.food)
-         console.log(this.food.count)
      }
    
  }
