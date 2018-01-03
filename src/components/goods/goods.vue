@@ -23,17 +23,17 @@
                            <img  :src="food.icon" alt="食物图片" width="57">
                         </span>
                         <div class="text-wrap">
-                              <span class="food-name">{{food.name}}</span>
-                              <span class="food-description">{{food.description}}</span>
-                              <span class="food-rating">
+                              <div class="food-name">{{food.name}}</div>
+                              <div class="food-description">{{food.description}}</div>
+                              <div class="food-rating">
                                     <span class="text">月售{{food.sellCount}}份</span><span class="text">好评率{{food.rating}}%</span>
-                              </span>
-                              <span class="price">￥{{food.price}}
+                              </div>
+                              <div class="price">￥{{food.price}}
                                  <span v-show="food.oldPrice" class="oldprice">￥{{food.oldPrice}}</span>
-                              </span>
-                              <span class="addiconwrap">
+                              </div>
+                              <div class="addiconwrap">
                                     <addfoodicon :food="food" :update-food-count="updateFoodCount"></addfoodicon>
-                              </span>
+                              </div>
                         </div>
                   </li>
                   </ul>            
@@ -42,6 +42,8 @@
       </div>
       <shopcart :delivery-price='seller.deliveryPrice'
                 :min-price='seller.minPrice'
+                :food-list='foodList'
+                :update-food-count='updateFoodCount'  
       
       >
       </shopcart>
@@ -70,7 +72,7 @@ export default {
                    const result = response.data
                    if(result.errno === 0){
                         this.goods = result.data
-                        console.log(result.data)
+                        // console.log(result.data)
                         Vue.nextTick(() => {
                               this._initScroll()
                         })
@@ -95,7 +97,7 @@ export default {
                      }
                      if(isAdd){
                            if(!food.count){
-                              console.log('没有菜')
+                              // console.log('没有菜')
                               Vue.set(food,'count',1)
                            }else {
                               food.count++
@@ -106,6 +108,20 @@ export default {
                            }
                      }
              }
+       },
+       computed: {
+           foodList(){
+               const foods = [];
+               this.goods.forEach( good => {
+                    good.foods.forEach(food => {
+                          if(food.count) {
+                                foods.push(food)
+                          }
+                    })                    
+               })
+               console.log(foods)
+               return foods
+           }
        },
        components: {
              addfoodicon,
@@ -184,8 +200,6 @@ export default {
                      vertical-align top                   
                   .text-wrap
                      display inline-block
-                     span 
-                        display block
                      .food-name
                         font-size 14px
                         color rgb(7,17,27)
@@ -212,7 +226,7 @@ export default {
                      .addiconwrap
                         position absolute
                         right 0
-                        bottom 8px
+                        bottom 10px
             
  
 
