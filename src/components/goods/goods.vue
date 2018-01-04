@@ -44,6 +44,7 @@
                 :min-price='seller.minPrice'
                 :food-list='foodList'
                 :update-food-count='updateFoodCount'  
+                :clear-cart='clearCart'
       
       >
       </shopcart>
@@ -110,6 +111,11 @@ export default {
                               //    console.log('菜减一')
                            }
                      }
+             },
+             clearCart (){
+                   this.foodList.forEach(food => {
+                         food.count = 0
+                   })
              }
        },
        computed: {

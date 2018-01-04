@@ -1,5 +1,6 @@
 <!-- by yao -->
 <template>
+<div>
      <div class="shopcart">
          <!-- 底部的黑色小条 -->
          <div class="content" @click='toogleList'>
@@ -24,7 +25,7 @@
                <div class="foodlist" v-show="listShow">
                    <!-- 食物列表标题 -->
                    <div class="list-header">
-                       <span class='title'>购物车</span><span class="empty">清空</span>
+                       <span class='title'>购物车</span><span class="empty" @click='clearCart'>清空</span>
                    </div>
                    <!-- 内容 -->
                    <div class="list-content" ref="listContent">
@@ -42,6 +43,10 @@
                </div>
          </transition>
      </div>
+     <transition name="fade">
+          <div class="list-mast" v-show="listShow" @click='toogleList'></div>
+     </transition>
+</div>
 </template>
 
 <script type='text/ecmascript-6'>
@@ -55,7 +60,8 @@ export default {
             foodList: Array,
             deliveryPrice: Number,
             minPrice: Number,
-            updateFoodCount: Function
+            updateFoodCount: Function,
+            clearCart: Function
         },
         data () {
             return {
@@ -224,6 +230,10 @@ export default {
            z-index -1
            width 100%
            transform translate3d(0,-100%,0)
+           &.foodlist-enter-active,&.foodlist-leave-active
+             transition all 0.5s
+           &.foodlist-enter,&.foodlist-leave-active 
+             transform: translate3d(0,0,0)
            .list-header
               height 40px
               line-height 40px
@@ -266,4 +276,19 @@ export default {
                   right 0
                   bottom 6px
             
+
+     .list-mast
+         position fixed
+         top: 0
+         left 0
+         width 100%
+         height 100%
+         z-index 40
+         opacity 1
+         background rgba(7,17,27,0.6)
+         &.fade-enter-active,&.fade-leave-active
+            transition all 0.5s
+         &.fade-enter,&.fade-leave-active
+            opacity 0
+            background rgba(7,17,27,0)
 </style>
