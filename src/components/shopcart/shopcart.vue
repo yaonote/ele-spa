@@ -2,7 +2,7 @@
 <template>
      <div class="shopcart">
          <!-- 底部的黑色小条 -->
-         <div class="content">
+         <div class="content" @click='toogleList'>
              <div class="content-left">
                    <div class="logo-wrapper">
                        <div class="logo" :class="{highlight : totalCount>0}">
@@ -21,19 +21,20 @@
          </div>
          <!-- 食物列表 -->
          <transition name="foodlist">
-               <div class="foodlist">
+               <div class="foodlist" v-show="listShow">
                    <!-- 食物列表标题 -->
                    <div class="list-header">
                        <span class='title'>购物车</span><span class="empty">清空</span>
                    </div>
                    <!-- 内容 -->
-                   <div class="list-content">
+                   <div class="list-content" ref="listContent">
                        <ul>
                            <li class='food' v-for='food in foodList'>
                                   <span class="name">{{food.name}}/{{food.count}}个</span>
-                                  <div class="addfood-wrap">
-                                      <addfoodicon :food='food' :update-food-count='updateFoodCount'></addfoodicon>
-                                  </div>
+                                  <span class="price">￥{{food.price}}</span>
+                                   <div class="addiconwrap">
+                                    <addfoodicon :food="food" :update-food-count="updateFoodCount"></addfoodicon>
+                                   </div>
                            </li>
                        </ul>
                    </div>
@@ -44,8 +45,9 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import addfoodicon from '../addfoodicon/addfoodicon'
-
+import BScroll from 'better-scroll'
+import Vue from 'vue'
+import addfoodicon from '../addfoodicon/addfoodicon.vue'
 
 
 export default {
@@ -57,7 +59,7 @@ export default {
         },
         data () {
             return {
-                
+                isShow: false
             };
         },
         computed: {
@@ -82,7 +84,34 @@ export default {
                 }else{
                     return '去结算'
                 }
+            },
+            listShow (){
+                if( this.totalCount === 0){
+                    this.isShow = false
+                    return false
+                }
+
+                if(this.isShow) {
+                    Vue.nextTick(() => {
+                        if(!this.scroll) {
+                            this.scroll = new BScroll(this.$refs.listContent, {
+                                click: true
+                            })
+                        }else{
+                            this.scroll.refresh()
+                        }
+                    })
+                }
+                return this.isShow
             }
+        },
+        methods: {
+               toogleList (){
+                   this.isShow = !this.isShow
+               }
+        },
+        components:{
+            addfoodicon
         }
 
 }
@@ -210,14 +239,31 @@ export default {
                 font-size 12px
                 color: rgb(0,160,220)
 
-           .list-centent
+           .list-content
                padding 0 18px
                max-height 217px
                overflow hidden
-               background-color #fff
+               background #fff
             .food
                position relative
                padding 12px 0
                box-sizing border-box
                border-1px(rgba(7,17,27,0.1))
+               .name 
+                  line-height 24px 
+                  font-size 14px 
+                  color rgb(7,17,27)
+               .price
+                  position absolute
+                  right 90px
+                  bottom 12px
+                  line-height 24px
+                  font-size 14px
+                  font-weight 700
+                  color rgb(240,20,20)
+               .addiconwrap
+                  position absolute
+                  right 0
+                  bottom 6px
+            
 </style>

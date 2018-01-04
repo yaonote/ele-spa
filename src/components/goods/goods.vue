@@ -92,6 +92,7 @@ export default {
                    })
              },
              updateFoodCount (food,isAdd,event){
+                  //  console.log('用我改变事物数量')
                      if(!event._constructed){
                            return
                      }
@@ -101,10 +102,12 @@ export default {
                               Vue.set(food,'count',1)
                            }else {
                               food.count++
+                              // console.log('菜加一')
                            }                         
                      }else{
                            if(food.count){
                                  food.count--
+                              //    console.log('菜减一')
                            }
                      }
              }
